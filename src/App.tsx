@@ -55,6 +55,7 @@ function App() {
 
 export default App;
 function renderChart(ctx: CustomChartContext): Promise<void> {
-    throw new Error('Function not implemented.');
+    console.log("here");
+    return;
 }
 
