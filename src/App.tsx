@@ -85,21 +85,21 @@ function App() {
     if (ctx.getChartModel().data == null || ctx.getChartModel().data[0] == null ){
       return;
     }
-
+    const width = document.body.scrollWidth;
+    const height = document.body.scrollHeight;
     let scene = new THREE.Scene();
     scene.background = new THREE.Color(0xdddddd);
-    var camera = new THREE.PerspectiveCamera( 75, 600 / 600, 0.1, 1000 );   
+    var camera = new THREE.PerspectiveCamera( 75, width / 800, 0.1, 1000 );   
     //camera.rotation.y = 45/180*Math.PI;
     camera.position.z = 3;
     let renderer = new THREE.WebGLRenderer({antialias:true});
 
     const canvas = renderer.domElement;
     // look up the size the canvas is being displayed
-    const width = document.body.scrollWidth;
-    const height = document.body.scrollHeight;
+
     console.log(width,height,"jhere",document.body);
 
-    renderer.setSize(width,600);
+    renderer.setSize(width,800);
     
     ref.current.appendChild(canvas);
     
