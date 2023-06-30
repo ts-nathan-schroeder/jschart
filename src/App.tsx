@@ -99,7 +99,7 @@ function App() {
     const height = document.body.scrollHeight;
     console.log(width,height,"jhere",document.body);
 
-    renderer.setSize(width,height);
+    renderer.setSize(width,600);
     
     ref.current.appendChild(canvas);
     
