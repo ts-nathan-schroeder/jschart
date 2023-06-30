@@ -119,9 +119,9 @@ function App() {
     let part_weight = {}
     for (var i=0;i<data[0].dataValue.length;i++){
         if (data[0].columnDataType == DataType.CHAR){
-          part_weight[data[0].dataValue[i]] = data[1].dataValue[i]
-        }else{
           part_weight[data[1].dataValue[i]] = data[0].dataValue[i]
+        }else{
+          part_weight[data[0].dataValue[i]] = data[1].dataValue[i]
         }
     }
   
