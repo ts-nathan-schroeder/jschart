@@ -128,8 +128,8 @@ function App() {
         */
        console.log(gltf,"gltf");
         for (var j=0;j<gltf.scene.children.length;j++){
-            var element = gltf.scene.children[j]
-            var name = element.name.replace("_"," ")
+            var element = gltf.scene.children[j];
+            var name = element.name;
             if (Object.keys(part_weight).includes(name)){
                 //Pop body part out a bit
                 element.position.z  = .2
