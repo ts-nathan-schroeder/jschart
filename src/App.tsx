@@ -92,9 +92,15 @@ function App() {
     //camera.rotation.y = 45/180*Math.PI;
     camera.position.z = 3;
     let renderer = new THREE.WebGLRenderer({antialias:true});
-    renderer.setSize(600,600);
+
+    const canvas = renderer.domElement;
+    // look up the size the canvas is being displayed
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+  
+    renderer.setSize(width,height);
     
-    ref.current.appendChild(renderer.domElement);
+    ref.current.appendChild(canvas);
     
     let hlight = new THREE.AmbientLight (0x404040,100);
     scene.add(hlight);
