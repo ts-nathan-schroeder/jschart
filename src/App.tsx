@@ -94,9 +94,10 @@ function App() {
     let renderer = new THREE.WebGLRenderer({antialias:true});
 
     const canvas = renderer.domElement;
+    console.log(ref.current, "current ref, ")
     // look up the size the canvas is being displayed
-    const width = ref.current.clientWidth;
-    const height = ref.current.clientHeight;
+    const width = ref.current.offsetWidth;
+    const height = ref.current.offsetHeight;
   
     renderer.setSize(width,height);
     
