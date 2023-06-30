@@ -132,6 +132,7 @@ function renderChart(ctx: CustomChartContext): Promise<void> {
           Model is loaded. Iterate through components and color by the count of Athletes. 
           We will add any relevant items to the targetList which will be used when listening for clicks.
       */
+     console.log(gltf,"gltf");
       for (var j=0;j<gltf.scene.children.length;j++){
           var element = gltf.scene.children[j]
           var name = element.name.replace("_"," ")
@@ -142,7 +143,9 @@ function renderChart(ctx: CustomChartContext): Promise<void> {
               //Set the materials Red value, based on the count of athletes
               let value = part_weight[name]/5
               element.material.color.r = value
-              
+
+              console.log(value,"color");
+
               //Add the body part to the list of click targets
               targetList.push(element)
           }
