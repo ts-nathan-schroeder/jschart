@@ -173,6 +173,7 @@ function App() {
     var mouse = new THREE.Vector2();
     
     renderer.render( scene, camera );
+    ctx.emitEvent(ChartToTSEvent.RenderComplete, null);
     
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     /*
