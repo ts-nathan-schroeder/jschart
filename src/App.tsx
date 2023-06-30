@@ -59,7 +59,6 @@ function App() {
 
 export default App;
 function renderChart(ctx: CustomChartContext): Promise<void> {
-  ctx.emitEvent(ChartToTSEvent.RenderStart, null);
 
   console.log("context",ctx);
   let scene = new THREE.Scene();
@@ -173,11 +172,9 @@ function renderChart(ctx: CustomChartContext): Promise<void> {
       //     console.error(err)
       // }
     }
-
-    ctx.emitEvent(ChartToTSEvent.RenderComplete, null);
   
   
   }
-  return;
+  return Promise.resolve();
 }
 
