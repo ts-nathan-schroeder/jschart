@@ -12,7 +12,7 @@ function App() {
   const ref = useRef(null)
   useEffect(()=>{
     initializeChart();
-  })
+  },[])
   async function initializeChart(){
     const ctx = await getChartContext({
       getDefaultChartConfig: (chartModel: ChartModel): ChartConfig[] => {
