@@ -1,5 +1,5 @@
 import './App.css';
-import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent } from '@thoughtspot/ts-chart-sdk';
+import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent, DataType } from '@thoughtspot/ts-chart-sdk';
 import React from 'react';
 import _ from 'lodash';
 import * as THREE from 'three';
@@ -42,6 +42,32 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
             } as Query,
         )),
         renderChart: (ctx) => renderChart(ctx),
+        chartConfigEditorDefinition: [
+          {
+              key: 'column',
+              label: 'Custom Column',
+              descriptionText:
+                  'X Axis can only have attributes, Y Axis can only have measures, Color can only have attributes. ' +
+                  'Should have just 1 column in Y axis with colors columns.',
+              columnSections: [
+                  {
+                      key: 'x',
+                      label: 'Custom X Axis',
+                      allowAttributeColumns: true,
+                      allowMeasureColumns: false,
+                      allowTimeSeriesColumns: true,
+                      maxColumnCount: 1,
+                  },
+                  {
+                      key: 'y',
+                      label: 'Custom Y Axis',
+                      allowAttributeColumns: false,
+                      allowMeasureColumns: true,
+                      allowTimeSeriesColumns: false,
+                  },
+              ],
+          },
+      ],
     });
 
     renderChart(ctx);
@@ -88,30 +114,43 @@ function renderChart(ctx: CustomChartContext): Promise<void> {
 
   var loader = new GLTFLoader();
   let targetList = []
+
+
+  let data = ctx.getChartModel().data[0].data;
+  let part_weight = {}
+  for (var i=0;i<data[0].dataValue.length;i++){
+      if (data[0].columnDataType == DataType.CHAR){
+        part_weight[data[0].dataValue[i]] = data[1].dataValue[i]
+      }else{
+        part_weight[data[1].dataValue[i]] = data[0].dataValue[i]
+      }
+  }
+
+
   loader.load('basic_person.glb', function(gltf){
       /* 
           Model is loaded. Iterate through components and color by the count of Athletes. 
           We will add any relevant items to the targetList which will be used when listening for clicks.
       */
-      // for (var j=0;j<gltf.scene.children.length;j++){
-      //     var element = gltf.scene.children[j]
-      //     var name = element.name.replace("_"," ")
-      //     if (Object.keys(body_parts).includes(name)){
-      //         //Pop body part out a bit
-      //         element.position.z  = .2
+      for (var j=0;j<gltf.scene.children.length;j++){
+          var element = gltf.scene.children[j]
+          var name = element.name.replace("_"," ")
+          if (Object.keys(part_weight).includes(name)){
+              //Pop body part out a bit
+              element.position.z  = .2
               
-      //         //Set the materials Red value, based on the count of athletes
-      //         value = body_parts[name]/100*5
-      //         element.material.color.r=value
+              //Set the materials Red value, based on the count of athletes
+              let value = part_weight[name]/5
+              element.material.color.r = value
               
-      //         //Add the body part to the list of click targets
-      //         targetList.push(element)
-      //     }
-      //     if (element.name =='body'){
-      //         element.material.color.b=1
-      //         targetList.push(element)
-      //     }
-      // }
+              //Add the body part to the list of click targets
+              targetList.push(element)
+          }
+          if (element.name =='body'){
+              element.material.color.b=1
+              targetList.push(element)
+          }
+      }
 
 
       scene.add(gltf.scene);
@@ -165,16 +204,10 @@ function renderChart(ctx: CustomChartContext): Promise<void> {
           'Left_Quad':'Clavicle',
           'Left_Bicep':'Carpus'
       }
-      // filter = intersects[0].object.name
-      // try{
-      //     window.setBodyPartFilter(part_map[filter]);
-      // }catch (err){
-      //     console.error(err)
-      // }
     }
   
   
   }
-  return Promise.resolve();
+  return;
 }
 
