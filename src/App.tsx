@@ -109,7 +109,9 @@ function App() {
     var loader = new GLTFLoader();
     let targetList = []
   
-  
+    if (!ctx.getChartModel().data){
+      return;
+    }
     let data = ctx.getChartModel().data[0].data;
     let part_weight = {}
     for (var i=0;i<data[0].dataValue.length;i++){
