@@ -59,6 +59,8 @@ function App() {
 
 export default App;
 function renderChart(ctx: CustomChartContext): Promise<void> {
+  ctx.emitEvent(ChartToTSEvent.RenderStart, null);
+
   console.log("context",ctx);
   let scene = new THREE.Scene();
   scene.background = new THREE.Color(0xdddddd);
