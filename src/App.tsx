@@ -81,6 +81,11 @@ function App() {
   function renderChart(ctx: CustomChartContext): Promise<void> {
 
     console.log("context",ctx);
+
+    if (ctx.getChartModel().data == null || ctx.getChartModel().data[0] == null ){
+      return;
+    }
+
     let scene = new THREE.Scene();
     scene.background = new THREE.Color(0xdddddd);
     var camera = new THREE.PerspectiveCamera( 75, 600 / 600, 0.1, 1000 );   
@@ -109,9 +114,7 @@ function App() {
     var loader = new GLTFLoader();
     let targetList = []
   
-    if (!ctx.getChartModel().data){
-      return;
-    }
+
     let data = ctx.getChartModel().data[0].data;
     let part_weight = {}
     for (var i=0;i<data[0].dataValue.length;i++){
