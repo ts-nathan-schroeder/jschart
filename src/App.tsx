@@ -95,8 +95,8 @@ function App() {
 
     const canvas = renderer.domElement;
     // look up the size the canvas is being displayed
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+    const width = ref.current.clientWidth;
+    const height = ref.current.clientHeight;
   
     renderer.setSize(width,height);
     
