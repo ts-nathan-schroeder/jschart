@@ -94,11 +94,11 @@ function App() {
     let renderer = new THREE.WebGLRenderer({antialias:true});
 
     const canvas = renderer.domElement;
-    console.log(ref.current, "current ref ",ref.current.getBoundingClientRect());
     // look up the size the canvas is being displayed
     const width = document.body.scrollWidth;
-    const height = document.body.scrollHeight
-  
+    const height = document.body.scrollHeight;
+    console.log(width,height,"jhere",document.body);
+
     renderer.setSize(width,height);
     
     ref.current.appendChild(canvas);
