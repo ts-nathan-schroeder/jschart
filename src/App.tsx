@@ -81,6 +81,7 @@ function App() {
   function renderChart(ctx: CustomChartContext): Promise<void> {
 
     console.log("context",ctx);
+    console.log(ctx.getChartModel().data,"data!!!")
 
     if (ctx.getChartModel().data == null || ctx.getChartModel().data[0] == null ){
       return;
@@ -120,7 +121,6 @@ function App() {
   
     var loader = new GLTFLoader();
     let targetList = []
-    console.log(ctx.getChartModel().data,"data!!!")
 
     let data = ctx.getChartModel().data[0].data;
     let part_weight = {}
