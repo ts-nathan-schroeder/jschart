@@ -119,7 +119,7 @@ function App() {
   
   function chartRender(ctx: CustomChartContext){
     console.log("context",ctx);
-
+    ref.current.innerHTML = "";
     if (ctx.getChartModel().data == null || ctx.getChartModel().data[0] == null ){
       return;
     }
