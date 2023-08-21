@@ -125,13 +125,13 @@ function App() {
     var loader = new GLTFLoader();
     let targetList = []
 
-    let data = ctx.getChartModel().data[0].data;
+    let data:any = ctx.getChartModel().data[0].data;
     let part_weight = {}
-    for (var i=0;i<data[0].dataValue.length;i++){
+    for (var i=0;i<data.dataValue[0].length;i++){
         if (data[0].columnDataType == DataType.CHAR){
-          part_weight[data[1].dataValue[i]] = data[0].dataValue[i]
+          part_weight[data.dataValue[1][i]] = data.dataValue[1][i]
         }else{
-          part_weight[data[0].dataValue[i]] = data[1].dataValue[i]
+          part_weight[data.dataValue[0][i]] = data.dataValue[0][i]
         }
     }
   
