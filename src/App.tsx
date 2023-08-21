@@ -159,7 +159,8 @@ function App() {
     var loader = new GLTFLoader();
     let targetList = []
     let context: any = ctx.getChartModel();
-    console.log("contexto",context);
+    console.log("contexto",context, context.visualProps);
+    
     let data:any = context.data[0].data;
     let part_weight = {}
     for (var i=0;i<data.dataValue.length;i++){
