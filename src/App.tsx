@@ -167,6 +167,7 @@ function App() {
       part_weight[data.dataValue[i][0]] = data.dataValue[i][1]
     }
     let color = "red";
+    console.log(context.visualProps,context.visualProps.color)
     if (context.visualProps && context.visualProps.color){
       color = context.visualProps.color;
     }
