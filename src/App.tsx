@@ -124,11 +124,11 @@ function App() {
   
     var loader = new GLTFLoader();
     let targetList = []
-
-    let data:any = ctx.getChartModel().data[0].data;
+    let context: any = ctx.getChartModel();
+    let data:any = context.data[0].data;
     let part_weight = {}
     for (var i=0;i<data.dataValue[0].length;i++){
-        if (data[0].columnDataType == DataType.CHAR){
+        if (context.columns[0].columnDataType == DataType.CHAR){
           part_weight[data.dataValue[1][i]] = data.dataValue[1][i]
         }else{
           part_weight[data.dataValue[0][i]] = data.dataValue[0][i]
