@@ -79,10 +79,16 @@ function App() {
   renderChart(ctx);
   }
   function renderChart(ctx: CustomChartContext): Promise<void> {
+    setTimeout(()=>chartRender(ctx), 1000)
+    return;
+  }
+  
+  function chartRender(ctx: CustomChartContext){
+    console.log("context",ctx);
 
-
-    let context:any = ctx;
-    console.log(context, context.chartModel,"hah!")
+    if (ctx.getChartModel().data == null || ctx.getChartModel().data[0] == null ){
+      return;
+    }
     const width = document.body.scrollWidth;
     const height = document.body.scrollHeight;
     let scene = new THREE.Scene();
@@ -217,9 +223,7 @@ function App() {
     
     }
     return;
-  }
-  
-  
+  }  
   
   
   return (
