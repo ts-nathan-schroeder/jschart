@@ -170,7 +170,6 @@ function App() {
     if (context.visualProps && context.visualProps.color){
       color = context.visualProps.color;
     }
-    context.visualProps
     loader.load('basic_person.glb', function(gltf){
         /* 
             Model is loaded. Iterate through components and color by the count of Athletes. 
