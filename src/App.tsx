@@ -171,6 +171,7 @@ function App() {
     if (context.visualProps){
       color = context.visualProps.color;
     }
+    console.log(color, color=='green')
     loader.load('basic_person.glb', function(gltf){
         /* 
             Model is loaded. Iterate through components and color by the count of Athletes. 
