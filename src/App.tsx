@@ -167,8 +167,8 @@ function App() {
       part_weight[data.dataValue[i][0]] = data.dataValue[i][1]
     }
     let color = "red";
-    console.log(context.visualProps,context.visualProps.color)
-    if (context.visualProps && context.visualProps.color){
+    console.log(context.visualProps)
+    if (context.visualProps){
       color = context.visualProps.color;
     }
     loader.load('basic_person.glb', function(gltf){
