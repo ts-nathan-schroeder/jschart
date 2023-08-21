@@ -80,11 +80,9 @@ function App() {
   }
   function renderChart(ctx: CustomChartContext): Promise<void> {
 
-    console.log(ctx); //shows dataset
-    console.log(ctx.getChartModel());  //does not show dataset
 
     let context:any = ctx;
-    console.log(context.chartModel.data[0].data,"hah!")
+    console.log(context, context.chartModel,"hah!")
     const width = document.body.scrollWidth;
     const height = document.body.scrollHeight;
     let scene = new THREE.Scene();
