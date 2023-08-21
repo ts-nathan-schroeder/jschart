@@ -81,7 +81,7 @@ function App() {
   function renderChart(ctx: CustomChartContext): Promise<void> {
 
     console.log("context",ctx);
-    console.log(ctx.getChartModel().data,"data!!!")
+    console.log(ctx.getChartModel(),"data!!!")
 
     if (ctx.getChartModel().data == null || ctx.getChartModel().data[0] == null ){
       return;
