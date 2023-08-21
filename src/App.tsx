@@ -120,7 +120,7 @@ function App() {
   
     var loader = new GLTFLoader();
     let targetList = []
-  
+    console.log(ctx.getChartModel().data,"data!!!")
 
     let data = ctx.getChartModel().data[0].data;
     let part_weight = {}
