@@ -127,12 +127,8 @@ function App() {
     let context: any = ctx.getChartModel();
     let data:any = context.data[0].data;
     let part_weight = {}
-    for (var i=0;i<data.dataValue[0].length;i++){
-        if (context.columns[0].columnDataType == DataType.CHAR){
-          part_weight[data.dataValue[1][i]] = data.dataValue[1][i]
-        }else{
-          part_weight[data.dataValue[0][i]] = data.dataValue[0][i]
-        }
+    for (var i=0;i<data.dataValue.length;i++){
+      part_weight[data.dataValue[i][0]] = data.dataValue[i][1]
     }
   
   
