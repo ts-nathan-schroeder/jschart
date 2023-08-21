@@ -1,5 +1,5 @@
 import './App.css';
-import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent, DataType } from '@thoughtspot/ts-chart-sdk';
+import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent, DataType, VisualProps } from '@thoughtspot/ts-chart-sdk';
 import React, { useRef } from 'react';
 import _ from 'lodash';
 import * as THREE from 'three';
@@ -83,7 +83,7 @@ function App() {
               key: 'color',
               type: 'radio',
               defaultValue: 'red',
-              values: ['red', 'green', 'yellow'],
+              values: ['red', 'green', 'blue'],
               label: 'Colors',
           },
           {
@@ -166,8 +166,11 @@ function App() {
     for (var i=0;i<data.dataValue.length;i++){
       part_weight[data.dataValue[i][0]] = data.dataValue[i][1]
     }
-  
-  
+    let color = "red";
+    if (context.visualProps && context.visualProps.color){
+      color = context.visualProps.color;
+    }
+    context.visualProps
     loader.load('basic_person.glb', function(gltf){
         /* 
             Model is loaded. Iterate through components and color by the count of Athletes. 
@@ -184,9 +187,19 @@ function App() {
                 
                 //Set the materials Red value, based on the count of athletes
                 let value = part_weight[name]/5
-                element.material.color.r = value
-  
-                console.log(value,"color");
+                element.material.color.r = 0;
+                element.material.color.g = 0;
+                element.material.color.b = 0;
+
+                if (color == 'red'){
+                  element.material.color.r = value
+                }
+                if (color == 'green'){
+                  element.material.color.g = value
+                }
+                if (color == 'blue'){
+                  element.material.color.b = value
+                }
   
                 //Add the body part to the list of click targets
                 targetList.push(element)
