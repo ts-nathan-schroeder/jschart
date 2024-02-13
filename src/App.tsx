@@ -235,7 +235,7 @@ function App() {
     var mouse = new THREE.Vector2();
     
     renderer.render( scene, camera );
-    // ctx.emitEvent(ChartToTSEvent.RenderComplete, null);
+    ctx.emitEvent(ChartToTSEvent.RenderComplete);
 
 
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
