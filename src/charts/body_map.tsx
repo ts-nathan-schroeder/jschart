@@ -13,8 +13,10 @@ function BodyMap() {
     initializeChart();
   },[])
   async function initializeChart(){
+    console.log("initting chart")
     const ctx = await getChartContext({
       getDefaultChartConfig: (chartModel: ChartModel): ChartConfig[] => {
+          console.log("defining config", chartModel)
           const cols = chartModel.columns;
           const measureColumns = _.filter(cols, (col) => col.type === ColumnType.MEASURE);
 
@@ -117,7 +119,7 @@ function BodyMap() {
   }
   
   function chartRender(ctx: CustomChartContext){
-    console.log("context",ctx);
+    console.log("rendering",ctx);
     ref.current.innerHTML = "";
     if (ctx.getChartModel().data == null || ctx.getChartModel().data[0] == null ){
       return;
