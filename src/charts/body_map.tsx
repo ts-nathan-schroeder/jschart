@@ -154,17 +154,22 @@ function BodyMap() {
                     ],
                 },
             ];
+            //@ts-ignore
             if (visualProps?.length !== 0) {
+               //@ts-ignore
                 if (visualProps?.accordion?.datalabels) {
+                    //@ts-ignore
                     elements[1].children?.push({
                         key: 'Color2',
                         type: 'radio',
+                          //@ts-ignore
                         defaultValue: 'blue',
                         values: ['blue', 'white', 'red'],
                         label: 'Color2',
                     });
                 }
             }
+                                //@ts-ignore
             return { elements };
         },
       renderChart: (ctx) => renderChart(ctx),
