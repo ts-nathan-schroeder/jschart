@@ -110,7 +110,7 @@ function BodyMap() {
       ],
   },
   });
-
+  console.log("initation finished")
   renderChart(ctx);
   }
   function renderChart(ctx: CustomChartContext): Promise<void> {
