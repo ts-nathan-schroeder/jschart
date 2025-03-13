@@ -1,4 +1,4 @@
-import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent, DataType, VisualProps, ValidationResponse } from '@thoughtspot/ts-chart-sdk';
+import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent, DataType, VisualProps, ValidationResponse, ChartConfigEditorDefinition, VisualPropEditorDefinition } from '@thoughtspot/ts-chart-sdk';
 import React, { useRef } from 'react';
 import _ from 'lodash';
 import * as THREE from 'three';
@@ -16,14 +16,20 @@ function BodyMap() {
     console.log("initting chart")
     const ctx = await getChartContext({
       getDefaultChartConfig: (chartModel: ChartModel): ChartConfig[] => {
-          console.log("defining config", chartModel)
           const cols = chartModel.columns;
-          const measureColumns = _.filter(cols, (col) => col.type === ColumnType.MEASURE);
 
-          const attributeColumns = _.filter(cols, (col) => col.type === ColumnType.ATTRIBUTE);
+          const measureColumns = _.filter(
+              cols,
+              (col) => col.type === ColumnType.MEASURE,
+          );
+
+          const attributeColumns = _.filter(
+              cols,
+              (col) => col.type === ColumnType.ATTRIBUTE,
+          );
 
           const axisConfig: ChartConfig = {
-              key: 'default',
+              key: 'column',
               dimensions: [
                   {
                       key: 'x',
@@ -34,30 +40,12 @@ function BodyMap() {
                       columns: measureColumns.slice(0, 2),
                   },
               ],
-
           };
           return [axisConfig];
       },
-      validateConfig: (
-        updatedConfig: any[],
-        chartModel: any,
-      ): ValidationResponse => {
-          console.log("validating config")
-          if (updatedConfig.length <= 0) {
-              return {
-                  isValid: false,
-                  validationErrorMessage: ['Invalid config. no config found'],
-              };
-          } else {
-              return {
-                  isValid: true,
-              };
-          }
-      },
       getQueriesFromChartConfig: (
-        chartConfig: ChartConfig[],
+          chartConfig: ChartConfig[],
       ): Array<Query> => {
-        console.log("getting queries")
           const queries = chartConfig.map(
               (config: ChartConfig): Query =>
                   _.reduce(
@@ -75,67 +63,113 @@ function BodyMap() {
           );
           return queries;
       },
-      renderChart: (ctx) => renderChart(ctx),
-      chartConfigEditorDefinition: [
-        {
-            key: 'column',
-            label: 'Custom Column',
-            descriptionText:
-                'X Axis can only have attributes, Y Axis can only have measures, Color can only have attributes. ' +
-                'Should have just 1 column in Y axis with colors columns.',
-            columnSections: [
-                {
-                    key: 'x',
-                    label: 'Custom X Axis',
-                    allowAttributeColumns: true,
-                    allowMeasureColumns: false,
-                    allowTimeSeriesColumns: true,
-                    maxColumnCount: 1,
-                },
-                {
-                    key: 'y',
-                    label: 'Custom Y Axis',
-                    allowAttributeColumns: false,
-                    allowMeasureColumns: true,
-                    allowTimeSeriesColumns: false,
-                },
-            ],
+        validateConfig: (
+            updatedConfig: any[],
+            chartModel: any,
+        ): ValidationResponse => {
+            if (updatedConfig.length <= 0) {
+                return {
+                    isValid: false,
+                    validationErrorMessage: ['Invalid config. no config found'],
+                };
+            } else {
+                return {
+                    isValid: true,
+                };
+            }
         },
+        chartConfigEditorDefinition: (
+            currentChartConfig: ChartModel,
+            ctx: CustomChartContext,
+        ): ChartConfigEditorDefinition[] => {
+            const { config, visualProps } = currentChartConfig;
 
-    ],
-    visualPropEditorDefinition: {
-      elements: [
-          {
-              key: 'color',
-              type: 'radio',
-              defaultValue: 'red',
-              values: ['red', 'green', 'blue'],
-              label: 'Colors',
-          },
-          {
-              type: 'section',
-              key: 'accordion',
-              label: 'Accordion',
-              children: [
-                  {
-                      key: 'Color2',
-                      type: 'radio',
-                      defaultValue: 'blue',
-                      values: ['blue', 'white', 'red'],
-                      label: 'Color2',
-                  },
-                  {
-                      key: 'datalabels',
-                      type: 'toggle',
-                      defaultValue: false,
-                      label: 'Data Labels',
-                  },
-              ],
-          },
-      ],
-  },
+            const yColumns = config?.chartConfig?.[0]?.dimensions.find(
+                (dimension) => dimension.key === 'y' && dimension.columns,
+            );
+
+            const configDefinition = [
+                {
+                    key: 'column',
+                    label: 'Custom Column',
+                    descriptionText:
+                        'X Axis can only have attributes, Y Axis can only have measures, Color can only have attributes. ' +
+                        'Should have just 1 column in Y axis with colors columns.',
+                    columnSections: [
+                        {
+                            key: 'x',
+                            label: 'Custom X Axis',
+                            allowAttributeColumns: true,
+                            allowMeasureColumns: false,
+                            allowTimeSeriesColumns: true,
+                            maxColumnCount: 1,
+                        },
+                        {
+                            key: 'y',
+                            label: 'Custom Y Axis',
+                            allowAttributeColumns: false,
+                            allowMeasureColumns: true,
+                            allowTimeSeriesColumns: false,
+                        },
+                    ],
+                },
+            ];
+            if (yColumns?.columns.length) {
+                for (let i = 0; i < yColumns.columns.length; i++) {
+                    configDefinition[0].columnSections.push({
+                        key: `layers${i}`,
+                        label: `Measures layer${i}`,
+                        allowAttributeColumns: false,
+                        allowMeasureColumns: true,
+                        allowTimeSeriesColumns: false,
+                    });
+                }
+            }
+            return configDefinition;
+        },
+        visualPropEditorDefinition: (
+            currentVisualProps: ChartModel,
+            ctx: CustomChartContext,
+        ): VisualPropEditorDefinition => {
+            const { visualProps } = currentVisualProps;
+            const elements = [
+                {
+                    key: 'color',
+                    type: 'radio',
+                    defaultValue: 'red',
+                    values: ['red', 'green', 'yellow'],
+                    label: 'Colors',
+                },
+                {
+                    type: 'section',
+                    key: 'accordion',
+                    label: 'Accordion',
+                    children: [
+                        {
+                            key: 'datalabels',
+                            type: 'toggle',
+                            defaultValue: false,
+                            label: 'Data Labels',
+                        },
+                    ],
+                },
+            ];
+            if (visualProps?.length !== 0) {
+                if (visualProps?.accordion?.datalabels) {
+                    elements[1].children?.push({
+                        key: 'Color2',
+                        type: 'radio',
+                        defaultValue: 'blue',
+                        values: ['blue', 'white', 'red'],
+                        label: 'Color2',
+                    });
+                }
+            }
+            return { elements };
+        },
+      renderChart: (ctx) => renderChart(ctx),
   });
-  console.log("initation finished")
+
   renderChart(ctx);
   }
   function renderChart(ctx: CustomChartContext): Promise<void> {
