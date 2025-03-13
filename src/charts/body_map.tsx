@@ -42,6 +42,7 @@ function BodyMap() {
         updatedConfig: any[],
         chartModel: any,
       ): ValidationResponse => {
+          console.log("validating config")
           if (updatedConfig.length <= 0) {
               return {
                   isValid: false,
@@ -54,16 +55,26 @@ function BodyMap() {
           }
       },
       getQueriesFromChartConfig: (
-          chartConfig: ChartConfig[],
-      ): Array<Query> => chartConfig.map((config: ChartConfig): Query => _.reduce(
-          config.dimensions,
-          (acc: Query, dimension) => ({
-              queryColumns: [...acc.queryColumns, ...dimension.columns],
-          }),
-          {
-              queryColumns: [],
-          } as Query,
-      )),
+        chartConfig: ChartConfig[],
+      ): Array<Query> => {
+        console.log("getting queries")
+          const queries = chartConfig.map(
+              (config: ChartConfig): Query =>
+                  _.reduce(
+                      config.dimensions,
+                      (acc: Query, dimension) => ({
+                          queryColumns: [
+                              ...acc.queryColumns,
+                              ...dimension.columns,
+                          ],
+                      }),
+                      {
+                          queryColumns: [],
+                      } as Query,
+                  ),
+          );
+          return queries;
+      },
       renderChart: (ctx) => renderChart(ctx),
       chartConfigEditorDefinition: [
         {
