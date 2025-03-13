@@ -1,4 +1,4 @@
-import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent, DataType, VisualProps } from '@thoughtspot/ts-chart-sdk';
+import { getChartContext, ChartModel, ChartConfig, ColumnType, CustomChartContext, Query, ChartToTSEvent, DataType, VisualProps, ValidationResponse } from '@thoughtspot/ts-chart-sdk';
 import React, { useRef } from 'react';
 import _ from 'lodash';
 import * as THREE from 'three';
@@ -38,7 +38,21 @@ function BodyMap() {
           };
           return [axisConfig];
       },
-
+      validateConfig: (
+        updatedConfig: any[],
+        chartModel: any,
+      ): ValidationResponse => {
+          if (updatedConfig.length <= 0) {
+              return {
+                  isValid: false,
+                  validationErrorMessage: ['Invalid config. no config found'],
+              };
+          } else {
+              return {
+                  isValid: true,
+              };
+          }
+      },
       getQueriesFromChartConfig: (
           chartConfig: ChartConfig[],
       ): Array<Query> => chartConfig.map((config: ChartConfig): Query => _.reduce(
